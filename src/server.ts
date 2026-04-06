@@ -25,9 +25,19 @@ export function startServer(): void {
   Bun.serve({
     port: PORT,
     async fetch(req) {
-      if (!authenticate(req)) return unauthorized();
-
       const url = new URL(req.url);
+
+      // Health check — public, no auth required
+      if (req.method === "GET" && url.pathname === "/health") {
+        return Response.json({
+          status: "healthy",
+          uptime: Math.floor((Date.now() - startTime) / 1000),
+          connectedHosts: getConnectedHostCount(),
+          messageCount: getMessageCount(),
+        });
+      }
+
+      if (!authenticate(req)) return unauthorized();
 
       // POST /messages
       if (req.method === "POST" && url.pathname === "/messages") {
@@ -92,16 +102,6 @@ export function startServer(): void {
         const since = parseInt(url.searchParams.get("since") || "0", 10);
         const msgs = getMessagesSince(hostId, since);
         return Response.json(msgs);
-      }
-
-      // GET /health
-      if (req.method === "GET" && url.pathname === "/health") {
-        return Response.json({
-          status: "healthy",
-          uptime: Math.floor((Date.now() - startTime) / 1000),
-          connectedHosts: getConnectedHostCount(),
-          messageCount: getMessageCount(),
-        });
       }
 
       return new Response("Not Found", { status: 404 });
