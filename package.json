@@ -1,0 +1,14 @@
+{
+  "name": "exchange",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "start": "bun run src/index.ts"
+  },
+  "dependencies": {
+    "lokijs": "^1.5.12"
+  },
+  "devDependencies": {
+    "@types/lokijs": "^1.5.14"
+  }
+}

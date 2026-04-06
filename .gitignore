@@ -1,0 +1,3 @@
+node_modules/
+exchange-snapshot.json
+*.db
