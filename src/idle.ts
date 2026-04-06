@@ -1,6 +1,6 @@
 import { getConnectedHostCount } from "./sse";
 
-const IDLE_TIMEOUT_MS = parseInt(process.env.IDLE_TIMEOUT_MS || String(30 * 60 * 1000), 10);
+const IDLE_TIMEOUT_MS = parseInt(process.env.IDLE_TIMEOUT_MS || String(48 * 60 * 60 * 1000), 10);
 const IS_DEV = process.env.NODE_ENV !== "production";
 
 let idleTimer: ReturnType<typeof setTimeout> | null = null;
